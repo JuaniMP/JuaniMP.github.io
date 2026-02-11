@@ -15,6 +15,7 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), icon()],
   adapter: netlify(),
   vite: {
+    // @ts-ignore
     plugins: [tailwindcss()],
   },
 });
