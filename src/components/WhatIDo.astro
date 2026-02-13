@@ -20,15 +20,31 @@ const getRandomClass = () => {
 
 <section class="flex flex-col items-center text-center gap-4">
   <p class="text-pblack">Portafolio Académico</p>
-  <h2 class="text-4xl font-bold">Consultas y Ejercicios SQL</h2>
+  <h2 class="text-4xl font-bold">Evidencias</h2>
+  <h3 id="category-subtitle" class="text-2xl font-semibold text-gray-700">Todos los proyectos</h3>
+
   <ul
     class="flex flex-wrap max-w-[940px] mx-auto justify-center md:justify-start gap-8 py-20 "
+    id="posts-container"
   >
     {
       posts.map((post) => {
         const randomClass = getRandomClass();
+        // Determinar categoría basada en los tags
+        let category = "oracle"; // Por defecto, todos los posts actuales son Oracle
+        if (post.data.tags?.includes("PL/SQL")) {
+          category = "plsql";
+        } else if (post.data.tags?.includes("NoSQL")) {
+          category = "nosql";
+        } else if (post.data.tags?.includes("Proyecto")) {
+          category = "proyecto";
+        }
+        
         return (
-          <li class="w-72 text-left rounded-3xl border-1 border-black shadow-card group hover:shadow-hover transition  px-4 py-6 flex flex-col gap-6">
+          <li 
+            class="post-item w-72 text-left rounded-3xl border-1 border-black shadow-card group hover:shadow-hover transition px-4 py-6 flex flex-col gap-6"
+            data-category={category}
+          >
             <a aria-label={post.data.title} href={`/blog/${post.id}/`} class="flex flex-col gap-4">
               <div
                 class={`${randomClass} text-4xl p-2 self-start border-1 border-black shadow-card1 group-hover:shadow-card transition`}
@@ -47,3 +63,59 @@ const getRandomClass = () => {
     }
   </ul>
 </section>
+
+<style>
+  .post-item {
+    display: flex;
+  }
+  
+  .post-item.hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  function filterPosts() {
+    const postItems = document.querySelectorAll('.post-item');
+    const subtitle = document.getElementById('category-subtitle');
+    
+    // Obtener categoría de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    
+    console.log('Filtering by category:', category);
+    
+    // Actualizar subtítulo
+    const categoryTitles = {
+      'sql': 'Consultas y Ejercicios SQL',
+      'oracle': 'Consultas y Ejercicios Oracle',
+      'plsql': 'Scripts PL/SQL',
+      'nosql': 'Bases de Datos NoSQL',
+      'proyecto': 'Proyectos'
+    };
+    
+    if (subtitle) {
+      subtitle.textContent = category ? (categoryTitles[category] || 'Todos los proyectos') : 'Todos los proyectos';
+    }
+    
+    // Filtrar posts según la categoría de la URL
+    postItems.forEach(post => {
+      const postCategory = post.getAttribute('data-category');
+      console.log('Post category:', postCategory);
+      
+      if (!category || category === 'all' || postCategory === category) {
+        post.classList.remove('hidden');
+        post.style.display = 'flex';
+      } else {
+        post.classList.add('hidden');
+        post.style.display = 'none';
+      }
+    });
+  }
+  
+  // Ejecutar al cargar
+  filterPosts();
+  
+  // Ejecutar después de navegaciones de Astro
+  document.addEventListener('astro:after-swap', filterPosts);
+</script>

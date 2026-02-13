@@ -7,10 +7,12 @@ const tags = ['Estudiante', 'Ingeniería', 'SQL'];
 <Layout
 	tags={tags}
 	icon="beach" 
-	title="Sobre Mí"
-	description="Conoce más sobre mi perfil profesional"
+	title="Presentación"
+	description="Conoce más sobre mi "
 	pubDate={new Date()}
     heroImage="/src/assets/gatitos.webp"
+    showBackButton={false}
+    showHomeButton={true}
 >
     <section class="mb-10">
         <h2 class="text-2xl font-bold mb-4">Video de Presentación</h2>
@@ -18,7 +20,7 @@ const tags = ['Estudiante', 'Ingeniería', 'SQL'];
             <iframe 
                 width="100%" 
                 height="100%" 
-                src="https://www.youtube.com/watch?v=WE1y2TnYfxY&t=1s" 
+                src="https://www.youtube.com/embed/WE1y2TnYfxY?start=1" 
                 title="Presentación Juanita" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 

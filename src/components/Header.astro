@@ -15,8 +15,20 @@ import "../styles/hamburgers.css";
     </a>
     <ul class="items-center md:gap-8 text-nowrap hidden md:flex">
       <li><Link href="/" text="Inicio" style="primary" /></li>
-      <li><Link href="/about" text="Sobre Mí" style="secondary" /></li>
-      <li><Link href="/blog" text="Repositorio SQL" style="tertiary" /></li>  
+      <li><Link href="/about" text="Presentación" style="secondary" /></li>
+      <li class="relative dropdown-container">
+        <button class="dropdown-toggle px-4 py-2 font-semibold hover:underline cursor-pointer bg-transparent border-none">
+          Evidencias ▼
+        </button>
+        <ul class="dropdown-menu absolute hidden bg-white border-2 border-black shadow-lg rounded-lg mt-2 min-w-[200px] z-50">
+          <li><a href="/blog" class="block px-4 py-2 hover:bg-gray-100 font-medium">📚 Todos</a></li>
+          <li><a href="/blog?category=sql" class="block px-4 py-2 hover:bg-gray-100 font-medium">📊 SQL</a></li>
+          <li><a href="/blog?category=oracle" class="block px-4 py-2 hover:bg-gray-100 font-medium">🗄️ Oracle</a></li>
+          <li><a href="/blog?category=plsql" class="block px-4 py-2 hover:bg-gray-100 font-medium">📜 PL/SQL Scripts</a></li>
+          <li><a href="/blog?category=nosql" class="block px-4 py-2 hover:bg-gray-100 font-medium">🔥 NoSQL</a></li>
+          <li><a href="/blog?category=proyecto" class="block px-4 py-2 hover:bg-gray-100 font-medium">🚀 Proyecto</a></li>
+        </ul>
+      </li>
     </ul>
     <div class="md:hidden z-40">
       <button class="hamburger hamburger--elastic" type="button">
@@ -27,9 +39,17 @@ import "../styles/hamburgers.css";
 
       <div id="navigation" class="fixed top-0 left-0 w-full h-full bg-white transform -translate-y-full transition-transform duration-300 ease-in-out">
         <ul class="flex flex-col items-center justify-center h-full gap-8 text-nowrap">
-          <li><Link href="/" text="Home" style="primary" /></li>
-          <li><Link href="/about" text="What I do" style="secondary" /></li>
-          <li><Link href="/blog" text="My work" style="tertiary" /></li>
+          <li><Link href="/" text="Inicio" style="primary" /></li>
+          <li><Link href="/about" text="Sobre Mí" style="secondary" /></li>
+          <li class="flex flex-col gap-2">
+            <p class="font-semibold">Evidencias:</p>
+            <a href="/blog" class="text-sm">📚 Todos</a>
+            <a href="/blog?category=sql" class="text-sm">📊 SQL</a>
+            <a href="/blog?category=oracle" class="text-sm">🗄️ Oracle</a>
+            <a href="/blog?category=plsql" class="text-sm">📜 PL/SQL Scripts</a>
+            <a href="/blog?category=nosql" class="text-sm">🔥 NoSQL</a>
+            <a href="/blog?category=proyecto" class="text-sm">🚀 Proyecto</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -45,6 +65,25 @@ import "../styles/hamburgers.css";
         hamburger.classList.toggle("is-active");
         menu.classList.toggle("-translate-y-full");
         menu.classList.toggle("translate-y-0");
+      });
+    }
+    
+    // Dropdown menu functionality
+    const dropdownContainer = document.querySelector(".dropdown-container");
+    const dropdownToggle = document.querySelector(".dropdown-toggle");
+    const dropdownMenu = document.querySelector(".dropdown-menu");
+    
+    if (dropdownToggle && dropdownMenu && dropdownContainer) {
+      dropdownToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle("hidden");
+      });
+      
+      // Cerrar dropdown al hacer clic fuera
+      document.addEventListener("click", (e) => {
+        if (!dropdownContainer.contains(e.target)) {
+          dropdownMenu.classList.add("hidden");
+        }
       });
     }
   }
