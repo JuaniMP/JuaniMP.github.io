@@ -95,6 +95,25 @@ const getRandomClass = () => {
 </style>
 
 <script>
+  function extractExerciseNumber(title) {
+    const match = title.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+  }
+
+  function sortPlsqlPosts() {
+    const postsContainer = document.getElementById('posts-container');
+    if (!postsContainer) return;
+
+    const visiblePosts = Array.from(postsContainer.querySelectorAll('.post-item:not(.hidden)'));
+    visiblePosts.sort((a, b) => {
+      const titleA = a.querySelector('h2')?.textContent?.trim() || '';
+      const titleB = b.querySelector('h2')?.textContent?.trim() || '';
+      return extractExerciseNumber(titleA) - extractExerciseNumber(titleB);
+    });
+
+    visiblePosts.forEach((post) => postsContainer.appendChild(post));
+  }
+
   function filterPosts() {
     const postItems = document.querySelectorAll('.post-item');
     const subtitle = document.getElementById('category-subtitle');
@@ -145,6 +164,10 @@ const getRandomClass = () => {
     } else {
       noExercisesMessage?.classList.add('hidden');
       postsContainer?.classList.remove('hidden');
+
+      if (category === 'plsql') {
+        sortPlsqlPosts();
+      }
     }
   }
   
