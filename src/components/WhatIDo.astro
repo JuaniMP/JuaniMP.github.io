@@ -100,7 +100,7 @@ const getRandomClass = () => {
     return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
   }
 
-  function sortPlsqlPosts() {
+  function sortNumberedPosts() {
     const postsContainer = document.getElementById('posts-container');
     if (!postsContainer) return;
 
@@ -165,8 +165,8 @@ const getRandomClass = () => {
       noExercisesMessage?.classList.add('hidden');
       postsContainer?.classList.remove('hidden');
 
-      if (category === 'plsql') {
-        sortPlsqlPosts();
+      if (!category || category === 'all' || category === 'plsql' || category === 'oracle' || category === 'sql') {
+        sortNumberedPosts();
       }
     }
   }

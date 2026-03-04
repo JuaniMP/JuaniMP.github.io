@@ -8,7 +8,7 @@ tags: ['PL/SQL']
 ---
 
 ## Enunciado
-Declarar una variable de texto, asignarle el valor **Hello World** y mostrarlo en consola.
+Declarar una variable de texto, asignarle el valor **Hello World** y mostrarlo por consola.
 
 ## Solución Oracle
 ```sql

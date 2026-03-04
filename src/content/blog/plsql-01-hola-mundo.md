@@ -8,7 +8,7 @@ tags: ['PL/SQL']
 ---
 
 ## Enunciado
-Mostrar en consola el mensaje **Hello, world** utilizando un bloque anónimo de PL/SQL.
+Primer bloque anónimo en PL/SQL para mostrar en consola el mensaje **Hello, world**.
 
 ## Solución Oracle
 ```sql

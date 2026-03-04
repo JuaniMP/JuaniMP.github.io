@@ -35,6 +35,7 @@ END;
 
 ## Explicación
 - `GOTO` transfiere la ejecución a una etiqueta (`<<primo>>` o `<<no_primo>>`).
+- Se comporta como una bifurcación de flujo (similar a un `switch` simple con saltos).
 - Se usa `RETURN` después del bloque primo para evitar que siga ejecutando la siguiente etiqueta.
 
 ## Resultado en consola

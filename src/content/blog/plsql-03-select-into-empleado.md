@@ -8,7 +8,7 @@ tags: ['PL/SQL']
 ---
 
 ## Enunciado
-Buscar el nombre y apellido del empleado con `EMPLOYEE_ID = 110` y mostrar el nombre en consola.
+Buscar el nombre y apellido del empleado con `EMPLOYEE_ID = 110` usando `SELECT ... INTO`.
 
 ## Solución Oracle
 ```sql
@@ -23,7 +23,7 @@ BEGIN
       FROM HR.EMPLOYEES
      WHERE EMPLOYEE_ID = 110;
 
-    DBMS_OUTPUT.PUT_LINE('El nombre del empleado es: ' || vv_nombre);
+    DBMS_OUTPUT.PUT_LINE('El nombre del empleado es: ' || vv_nombre || ' ' || vv_apellido);
 END;
 /
 ```
@@ -35,7 +35,7 @@ END;
 
 ## Resultado en consola
 ```text
-El nombre del empleado es: John
+El nombre del empleado es: John Chen
 
 PL/SQL procedure successfully completed.
 ```

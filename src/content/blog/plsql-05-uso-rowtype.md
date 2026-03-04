@@ -22,18 +22,19 @@ BEGIN
       FROM HR.EMPLOYEES
      WHERE EMPLOYEE_ID = 110;
 
-    DBMS_OUTPUT.PUT_LINE('El nombre del empleado es: ' || vv_empleado.FIRST_NAME);
+    DBMS_OUTPUT.PUT_LINE('El nombre del empleado es: ' || vv_empleado.FIRST_NAME || ' ' || vv_empleado.LAST_NAME);
 END;
 /
 ```
 
 ## Explicación
 - `%ROWTYPE` crea una variable con todas las columnas de la tabla.
+- Con `%ROWTYPE`, sí puedes usar `SELECT * INTO ...` porque el registro tiene la misma estructura de la fila.
 - Puedes acceder a cada campo con notación punto, por ejemplo `vv_empleado.FIRST_NAME`.
 
 ## Resultado en consola
 ```text
-El nombre del empleado es: John
+El nombre del empleado es: John Chen
 
 PL/SQL procedure successfully completed.
 ```
