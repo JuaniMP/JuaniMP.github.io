@@ -46,12 +46,12 @@ const getRandomClass = () => {
         let category = "oracle";
         if (post.data.tags?.includes("PL/SQL")) {
           category = "plsql";
+        } else if (post.data.tags?.includes("Proyecto")) {
+          category = "proyecto";
         } else if (post.data.tags?.includes("SQL")) {
           category = "sql";
         } else if (post.data.tags?.includes("NoSQL")) {
           category = "nosql";
-        } else if (post.data.tags?.includes("Proyecto")) {
-          category = "proyecto";
         }
         
         return (
