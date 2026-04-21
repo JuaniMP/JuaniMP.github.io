@@ -43,9 +43,11 @@ const getRandomClass = () => {
       posts.map((post) => {
         const randomClass = getRandomClass();
         // Determinar categoría basada en los tags
-        let category = "oracle"; // Por defecto, todos los posts actuales son Oracle
+        let category = "oracle";
         if (post.data.tags?.includes("PL/SQL")) {
           category = "plsql";
+        } else if (post.data.tags?.includes("SQL")) {
+          category = "sql";
         } else if (post.data.tags?.includes("NoSQL")) {
           category = "nosql";
         } else if (post.data.tags?.includes("Proyecto")) {
