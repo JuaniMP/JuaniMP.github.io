@@ -1,67 +1,61 @@
 ---
-title: 'NoSQL 01: Estructura Base Mundial 2026'
-description: 'Creacion de base y 5 colecciones en MongoDB para Canada, Mexico y Estados Unidos.'
-pubDate: 'Apr 22 2026'
-heroImage: '/src/assets/gatitos.webp'
+title: "NoSQL 01 — Estructura base: Mundial 2026"
+description: "Modelo de datos MongoDB para un sistema de gestión del Mundial 2026 (sedes, estadios, selecciones, partidos, boletos)."
+pubDate: "2026-05-20"
 icon: 'web'
-tags: ['NoSQL', 'MongoDB']
+tags: ["NoSQL","MongoDB","Mundial2026"]
 ---
 
-## Enunciado
-Crear una base NoSQL para el Mundial 2026 con cinco colecciones y varios documentos de ejemplo.
+En este ejercicio definimos una estructura básica para un proyecto de ejemplo en MongoDB.
 
-## Contexto
-Se trabaja en MongoDB usando la base `mundial2026`. El modelo mezcla documentos simples, embebidos y arreglos para representar informacion real del torneo.
+Colecciones propuestas:
+- `sedes` — países/ciudades sede del torneo.
+- `estadios` — estadios con capacidad y referencia a `sedeId`.
+- `selecciones` — equipos participantes con plantillas.
+- `partidos` — encuentros con referencias a estadio y selecciones.
+- `boletos` — entradas vendidas para cada partido.
 
-## Solucion NoSQL (MongoDB)
-```javascript
+Ejemplo en shell de MongoDB (mongosh):
+
+```js
 use("mundial2026");
 
-// 1) sedes
- db.createCollection("sedes");
- db.sedes.insertMany([
-  { pais: "Canada", ciudades: ["Toronto", "Vancouver"], confederacion: "Concacaf" },
-  { pais: "Mexico", ciudades: ["CDMX", "Guadalajara", "Monterrey"], confederacion: "Concacaf" },
-  { pais: "Estados Unidos", ciudades: ["Los Angeles", "New York", "Miami"], confederacion: "Concacaf" }
- ]);
+db.sedes.insertMany([
+  { _id: 1, pais: "EEUU", ciudad: "Los Angeles" },
+  { _id: 2, pais: "Mexico", ciudad: "Mexico City" },
+  { _id: 3, pais: "Canada", ciudad: "Toronto" }
+]);
 
-// 2) estadios
- db.createCollection("estadios");
- db.estadios.insertMany([
-  { nombre: "Azteca", ciudad: "CDMX", capacidad: 87000, pais: "Mexico" },
-  { nombre: "SoFi Stadium", ciudad: "Los Angeles", capacidad: 70000, pais: "Estados Unidos" },
-  { nombre: "BC Place", ciudad: "Vancouver", capacidad: 54500, pais: "Canada" }
- ]);
+db.estadios.insertMany([
+  { _id: 101, nombre: "Estadio LA", sedeId: 1, capacidad: 70000 },
+  { _id: 102, nombre: "Azteca", sedeId: 2, capacidad: 87000 },
+  { _id: 103, nombre: "Toronto Arena", sedeId: 3, capacidad: 60000 }
+]);
 
-// 3) selecciones
- db.createCollection("selecciones");
- db.selecciones.insertMany([
-  { codigo: "CAN", nombre: "Canada", grupo: "A", ranking_fifa: 49 },
-  { codigo: "MEX", nombre: "Mexico", grupo: "A", ranking_fifa: 15 },
-  { codigo: "USA", nombre: "Estados Unidos", grupo: "A", ranking_fifa: 11 }
- ]);
+db.selecciones.insertMany([
+  { _id: "ARG", nombre: "Argentina", grupo: "A" },
+  { _id: "BRA", nombre: "Brasil", grupo: "B" }
+]);
 
-// 4) partidos
- db.createCollection("partidos");
- db.partidos.insertMany([
-  { fecha: ISODate("2026-06-11T19:00:00Z"), local: "MEX", visitante: "USA", estadio: "Azteca", fase: "Grupos" },
-  { fecha: ISODate("2026-06-12T19:00:00Z"), local: "CAN", visitante: "MEX", estadio: "BC Place", fase: "Grupos" }
- ]);
+db.partidos.insertMany([
+  {
+    _id: 1001,
+    fecha: new Date("2026-06-10T20:00:00Z"),
+    estadioId: 101,
+    local: "ARG",
+    visitante: "BRA",
+    fase: "Grupo"
+  }
+]);
 
-// 5) boletos
- db.createCollection("boletos");
- db.boletos.insertMany([
-  { partido: "MEX-USA", categoria: "VIP", precio: 600, moneda: "USD", disponibles: 5000 },
-  { partido: "CAN-MEX", categoria: "General", precio: 120, moneda: "USD", disponibles: 18000 }
- ]);
+db.boletos.insertMany([
+  { _id: "B-1", partidoId: 1001, comprador: "Juan Perez", asiento: "A12", precio: 120 },
+  { _id: "B-2", partidoId: 1001, comprador: "Ana Ruiz", asiento: "A13", precio: 120 }
+]);
 ```
 
-## Explicacion
-1. `createCollection` define cada entidad principal.
-2. `insertMany` carga varios documentos en un solo paso.
-3. Se usa una estructura flexible para agregar campos sin migraciones complejas.
+Comentarios:
+- Usamos identificadores simples para facilitar ejemplos; en producción puede convenir ObjectId.
+- Las referencias (`sedeId`, `estadioId`, `partidoId`) sirven para consultas y joins con `$lookup`.
 
-## Resultado Esperado
-- Base `mundial2026` creada.
-- Colecciones: `sedes`, `estadios`, `selecciones`, `partidos`, `boletos`.
-- Datos iniciales listos para consultas y actualizaciones.
+En los siguientes ejercicios veremos inserciones masivas, consultas y operaciones sobre documentos embebidos y arreglos.

@@ -34,7 +34,7 @@ Estas operaciones son base para gestion de datos en NoSQL. Elegir la correcta ev
 - updateMany: modifica todos los documentos que cumplan el filtro.
 - Regla practica: si el cambio es global, usa updateMany; si es puntual, usa updateOne.
 
-## Ejemplos Rapidos (Mundial 2026)
+## Ejemplos Rápidos (Mundial 2026)
 ```javascript
 use("mundial2026");
 

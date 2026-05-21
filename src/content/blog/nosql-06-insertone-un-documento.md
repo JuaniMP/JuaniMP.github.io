@@ -1,6 +1,6 @@
 ---
 title: 'NoSQL 06: insertOne (Insertar un Documento)'
-description: 'Insertar un solo documento en MongoDB con ejemplo del Mundial 2026.'
+description: 'Insertar un solo documento en MongoDB con un ejemplo práctico.'
 pubDate: 'Apr 22 2026'
 heroImage: '/src/assets/gatitos.webp'
 icon: 'web'

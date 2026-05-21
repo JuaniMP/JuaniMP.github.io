@@ -1,6 +1,6 @@
 ---
-title: 'SQL 11: Modelado de Base de Datos del Proyecto'
-description: 'Creacion del modelo relacional del proyecto en MySQL con tablas, restricciones, indices y auditoria.'
+title: 'Proyecto SQL 11: Modelado de ThinWallet'
+description: 'Modelo relacional de ThinWallet, nuestro proyecto de finanzas personales, con tablas, restricciones, indices y auditoria.'
 pubDate: 'Apr 21 2026'
 heroImage: '/src/assets/gatitos.webp'
 icon: 'web'
@@ -8,10 +8,10 @@ tags: ['SQL', 'MySQL', 'DDL', 'DML', 'Proyecto']
 ---
 
 ## Enunciado
-Diseñar la base de datos principal del proyecto sobre una estructura normalizada en MySQL, incluyendo limpieza inicial, tablas base, llaves primarias, llaves foraneas, indices y una tabla de auditoria.
+Diseñar la base de datos principal de ThinWallet sobre una estructura normalizada en MySQL, incluyendo limpieza inicial, tablas base, llaves primarias, llaves foraneas, indices y una tabla de auditoria.
 
 ## Contexto
-Este modelo organiza la informacion de usuarios, circulos de gasto, categorias, gastos, transacciones, deudas y auditoria del sistema. La idea fue construir una base consistente en **3FN** para soportar crecimiento, trazabilidad y reglas de negocio sin duplicar datos innecesariamente.
+ThinWallet es nuestro proyecto de finanzas personales y gastos compartidos. Este modelo organiza la informacion de usuarios, circulos de gasto, categorias, gastos, transacciones, deudas y auditoria del sistema. La idea fue construir una base consistente en **3FN** para soportar crecimiento, trazabilidad y reglas de negocio sin duplicar datos innecesariamente.
 
 ## Solucion SQL
 ```sql
@@ -224,7 +224,7 @@ Registra eventos del sistema con trazabilidad completa: tabla afectada, accion, 
 6. Se dejo una tabla de auditoria separada para no mezclar el historico con los datos operativos.
 
 ## Resultado Esperado
-- Base de datos creada en MySQL con estructura normalizada.
+- Base de datos creada en MySQL con estructura normalizada para ThinWallet.
 - Integridad referencial protegida por llaves foraneas.
 - Relaciones muchos a muchos resueltas correctamente.
 - Auditoria preparada para trazabilidad de operaciones.

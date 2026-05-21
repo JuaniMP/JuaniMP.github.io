@@ -1,51 +1,49 @@
 ---
-title: 'NoSQL 03: Documento Embebido y Arreglos'
-description: 'Uso de documentos anidados y arrays para representar datos del Mundial 2026.'
-pubDate: 'Apr 22 2026'
-heroImage: '/src/assets/gatitos.webp'
+title: "NoSQL 03 — Documento embebido y arreglos (Mundial 2026)"
+description: "Ejemplos de documentos embebidos y uso de arreglos en el modelo Mundial2026."
+pubDate: "2026-05-20"
 icon: 'web'
-tags: ['NoSQL', 'MongoDB', 'Modelado']
+tags: ["NoSQL","MongoDB","Mundial2026"]
 ---
 
-## Enunciado
-Modelar informacion del Mundial con documento embebido y arreglo para aprovechar el modelo documental.
+En MongoDB es común usar documentos embebidos y arreglos para modelar relaciones cuando la lectura es más frecuente que la escritura.
 
-## Contexto
-MongoDB permite guardar subdocumentos y listas en un mismo registro cuando los datos se consultan juntos.
+Ejemplo: embebemos la información de la ciudad dentro del estadio y usamos un arreglo de goles en partidos.
 
-## Solucion NoSQL (MongoDB)
-```javascript
+```js
 use("mundial2026");
 
-db.partidos.insertOne({
-  fecha: ISODate("2026-06-15T20:00:00Z"),
-  local: "USA",
-  visitante: "BRA",
-  fase: "Grupos",
-  estadio: {
-    nombre: "SoFi Stadium",
-    ciudad: "Los Angeles",
-    pais: "Estados Unidos"
-  },
-  arbitros: [
-    { nombre: "Juan Perez", rol: "Principal" },
-    { nombre: "Ana Torres", rol: "Asistente" },
-    { nombre: "Luis Rojas", rol: "Asistente" }
-  ],
-  estadisticas: {
-    posesion_local: 54,
-    posesion_visitante: 46,
-    tiros_local: 12,
-    tiros_visitante: 8
-  }
+// Estadio con documento embebido para sede/ciudad
+db.estadios.insertOne({
+  _id: 201,
+  nombre: "Nuevo Estadio",
+  sede: { pais: "EEUU", ciudad: "San Francisco" },
+  capacidad: 65000
 });
+
+// Partido con arreglo de goles (local, visitante) y eventos
+db.partidos.insertOne({
+  _id: 2001,
+  fecha: new Date("2026-06-12T20:00:00Z"),
+  estadioId: 201,
+  local: "ARG",
+  visitante: "FRA",
+  goles: [2, 0],
+  eventos: [
+    { minuto: 12, tipo: "gol", jugador: "Jugador A", equipo: "ARG" },
+    { minuto: 45, tipo: "tarjeta", jugador: "Jugador B", equipo: "FRA" }
+  ]
+});
+
+// Actualizar: agregar un gol al arreglo
+db.partidos.updateOne({ _id: 2001 }, { $push: { goles: 1 } });
+
+// Filtrar por elementos de arreglo
+db.partidos.find({ goles: { $elemMatch: { $gte: 2 } } });
 ```
 
-## Explicacion
-1. `estadio` es un documento embebido (objeto dentro del documento principal).
-2. `arbitros` es un arreglo de objetos.
-3. Este enfoque reduce joins y facilita lecturas de una sola consulta.
+Ventajas:
+- Lecturas rápidas cuando la información relacionada se consume junto.
 
-## Resultado Esperado
-- Un partido con estructura rica y jerarquica.
-- Datos relacionados almacenados juntos y listos para consulta.
+Consideraciones:
+- Evite documentos que crezcan ilimitadamente; para historiales grandes considere referencias en lugar de embebido.

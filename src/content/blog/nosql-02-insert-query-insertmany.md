@@ -1,52 +1,50 @@
 ---
-title: 'NoSQL 02: Insert Query con insertMany'
-description: 'Como insertar multiples documentos en MongoDB de forma eficiente.'
-pubDate: 'Apr 22 2026'
-heroImage: '/src/assets/gatitos.webp'
+title: "NoSQL 02 — Insert: `insertMany()` y consultas básicas (Mundial 2026)"
+description: "Ejemplos de `insertMany()` y consultas `find()` sobre la base `mundial2026`."
+pubDate: "2026-05-20"
 icon: 'web'
-tags: ['NoSQL', 'MongoDB', 'Insert']
+tags: ["NoSQL","MongoDB","Mundial2026"]
 ---
 
-## Enunciado
-Mostrar como hacer un "insert query" en MongoDB para cargar varios registros de una vez.
+En este ejercicio practicamos inserciones masivas y consultas básicas usando colecciones de ejemplo.
 
-## Contexto
-En MongoDB, el equivalente practico para carga masiva inicial suele ser `insertMany`.
+Insertar varias selecciones:
 
-## Solucion NoSQL (MongoDB)
-```javascript
+```js
 use("mundial2026");
 
 db.selecciones.insertMany([
-  {
-    codigo: "ARG",
-    nombre: "Argentina",
-    grupo: "B",
-    ranking_fifa: 1,
-    tecnicos: ["Lionel Scaloni"]
-  },
-  {
-    codigo: "BRA",
-    nombre: "Brasil",
-    grupo: "B",
-    ranking_fifa: 3,
-    tecnicos: ["Dorival Junior"]
-  },
-  {
-    codigo: "FRA",
-    nombre: "Francia",
-    grupo: "C",
-    ranking_fifa: 2,
-    tecnicos: ["Didier Deschamps"]
-  }
+  { _id: "ARG", nombre: "Argentina", grupo: "A", ranking: 1 },
+  { _id: "BRA", nombre: "Brasil", grupo: "B", ranking: 2 },
+  { _id: "FRA", nombre: "Francia", grupo: "C", ranking: 3 }
 ]);
 ```
 
-## Explicacion
-1. `insertMany` recibe un arreglo de documentos.
-2. Es mas eficiente que insertar uno por uno cuando son muchos registros.
-3. MongoDB agrega `_id` automatico si no lo defines.
+Insertar partidos:
 
-## Resultado Esperado
-- Tres nuevas selecciones cargadas.
-- Cada documento con `_id` unico generado por MongoDB.
+```js
+db.partidos.insertMany([
+  { _id: 1001, fecha: new Date("2026-06-10T20:00:00Z"), estadioId: 101, local: "ARG", visitante: "BRA", goles: [2,1] },
+  { _id: 1002, fecha: new Date("2026-06-11T18:00:00Z"), estadioId: 102, local: "FRA", visitante: "ESP", goles: [1,0] }
+]);
+```
+
+Consultas básicas:
+
+```js
+// Todas las selecciones
+db.selecciones.find().pretty();
+
+// Selecciones en el grupo A
+db.selecciones.find({ grupo: "A" });
+
+// Partidos en un estadio concreto
+db.partidos.find({ estadioId: 101 });
+
+// Proyección: solo fecha y equipos
+db.partidos.find({}, { fecha: 1, local: 1, visitante: 1 });
+```
+
+Notas:
+- `insertMany()` acepta un arreglo de documentos y es más eficiente que múltiples `insertOne()`.
+- Para evitar duplicados, considere crear índices únicos cuando corresponda (por ejemplo `_id` o campos compuestos).
